@@ -5,6 +5,7 @@ import AceEditor from 'react-ace'
 
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
+import './App.css'
 
 class App extends Component {
   state = {

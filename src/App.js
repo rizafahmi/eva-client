@@ -11,24 +11,33 @@ import LoadingIndicator from './components/LoadingIndicator'
 
 class App extends Component {
   state = {
-    code: '',
+    code: localStorage.getItem('code') || '// Your code here...',
     results: '',
-    doEval: false
+    doEval: false,
+    testCode:
+      localStorage.getItem('testCode') ||
+      '// Your test code here...\n\n// Example: Test.assertEquals("a b".split(" ").length, 2)'
   }
   componentDidMount () {
     document.addEventListener('keydown', this.keydownHandler)
   }
   evalCode = async () => {
     console.log('eval...')
+    const sterilCode = this.state.code.replace(/"/g, "'")
+    const sterilTestCode = this.state.testCode.replace(/"/g, "'")
+    localStorage.setItem('code', sterilCode)
+    localStorage.setItem('testCode', sterilTestCode)
     this.setState({
       doEval: true
     })
     try {
       const { data } = await axios.post('http://localhost:6543/eva', {
-        code: this.state.code
+        code: sterilCode,
+        testCode: sterilTestCode
       })
       this.setState({
         results: data.result,
+        code: sterilCode,
         doEval: false
       })
     } catch (error) {
@@ -53,6 +62,11 @@ class App extends Component {
       code: newValue
     })
   }
+  onTestCaseChange = newValue => {
+    this.setState({
+      testCode: newValue
+    })
+  }
   render () {
     const textButton = this.state.doEval ? 'Evaluating...' : 'Evaluate now!'
     return (
@@ -65,7 +79,19 @@ class App extends Component {
             name='code'
             editorProps={{ $blockScrolling: true }}
             value={this.state.code}
-            height='600px'
+            height='380px'
+            width='600px'
+            fontSize='16px'
+          />
+          <hr />
+          <AceEditor
+            mode='javascript'
+            theme='monokai'
+            onChange={this.onTestCaseChange}
+            name='testCode'
+            editorProps={{ $blockScrolling: true }}
+            value={this.state.testCode}
+            height='200px'
             width='600px'
             fontSize='16px'
           />

@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import brace from 'brace'
+import AceEditor from 'react-ace'
+
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
 
 class App extends Component {
   state = {
@@ -23,16 +28,26 @@ class App extends Component {
       code: e.target.value
     })
   }
+  onChange = newValue => {
+    console.log('change', newValue)
+    this.setState({
+      code: newValue
+    })
+  }
   render () {
     return (
       <div style={styles.container}>
         <div style={styles.code}>
-          <textarea
+          <AceEditor
+            mode='javascript'
+            theme='monokai'
+            onChange={this.onChange}
             name='code'
-            placeholder='// Your code here...'
-            onChange={this.handleCodeChange}
+            editorProps={{ $blockScrolling: true }}
             value={this.state.code}
-            style={styles.panel}
+            height='600px'
+            width='600px'
+            fontSize='16px'
           />
           <button onClick={this.evalCode}>Evaluate</button>
         </div>

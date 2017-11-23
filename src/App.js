@@ -7,6 +7,8 @@ import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import './App.css'
 
+import LoadingIndicator from './components/LoadingIndicator'
+
 class App extends Component {
   state = {
     code: '',
@@ -84,6 +86,7 @@ class App extends Component {
             value={this.state.results}
             disabled={true}
           />
+          {this.state.doEval && <LoadingIndicator title='Evaluating...' />}
         </div>
       </div>
     )

@@ -12,5 +12,8 @@ const config = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 }
 
-const fire = firebase.initializeApp(config)
-export default fire
+firebase.initializeApp(config)
+export default firebase
+
+export const auth = firebase.auth()
+export const githubAuthProvider = new firebase.auth.GithubAuthProvider()

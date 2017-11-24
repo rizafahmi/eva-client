@@ -7,6 +7,8 @@ import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import './App.css'
 
+import LoginMenu from './components/LoginMenu'
+
 import LoadingIndicator from './components/LoadingIndicator'
 
 class App extends Component {
@@ -70,49 +72,52 @@ class App extends Component {
   render () {
     const textButton = this.state.doEval ? 'Evaluating...' : 'Evaluate now!'
     return (
-      <div className='grid' style={styles.container}>
-        <div className='grid__col-6' style={styles.code}>
-          <AceEditor
-            mode='javascript'
-            theme='monokai'
-            onChange={this.onChange}
-            name='code'
-            editorProps={{ $blockScrolling: true }}
-            value={this.state.code}
-            height='380px'
-            width='600px'
-            fontSize='16px'
-          />
-          <hr />
-          <AceEditor
-            mode='javascript'
-            theme='monokai'
-            onChange={this.onTestCaseChange}
-            name='testCode'
-            editorProps={{ $blockScrolling: true }}
-            value={this.state.testCode}
-            height='200px'
-            width='600px'
-            fontSize='16px'
-          />
-          <br />
-          <button
-            onClick={this.evalCode}
-            className='btn--default'
-            disabled={this.state.doEval}
-          >
-            {textButton}
-          </button>
-        </div>
-        <div className='grid__col-6' style={styles.result}>
-          <textarea
-            className='form__input'
-            style={styles.panel}
-            name='result'
-            value={this.state.results}
-            disabled={true}
-          />
-          {this.state.doEval && <LoadingIndicator title='Evaluating...' />}
+      <div>
+        <LoginMenu />
+        <div className='grid' style={styles.container}>
+          <div className='grid__col-6' style={styles.code}>
+            <AceEditor
+              mode='javascript'
+              theme='monokai'
+              onChange={this.onChange}
+              name='code'
+              editorProps={{ $blockScrolling: true }}
+              value={this.state.code}
+              height='380px'
+              width='600px'
+              fontSize='16px'
+            />
+            <hr />
+            <AceEditor
+              mode='javascript'
+              theme='monokai'
+              onChange={this.onTestCaseChange}
+              name='testCode'
+              editorProps={{ $blockScrolling: true }}
+              value={this.state.testCode}
+              height='200px'
+              width='600px'
+              fontSize='16px'
+            />
+            <br />
+            <button
+              onClick={this.evalCode}
+              className='btn--default'
+              disabled={this.state.doEval}
+            >
+              {textButton}
+            </button>
+          </div>
+          <div className='grid__col-6' style={styles.result}>
+            <textarea
+              className='form__input'
+              style={styles.panel}
+              name='result'
+              value={this.state.results}
+              disabled={true}
+            />
+            {this.state.doEval && <LoadingIndicator title='Evaluating...' />}
+          </div>
         </div>
       </div>
     )
